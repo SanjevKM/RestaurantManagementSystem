@@ -20,6 +20,7 @@ public class Chef extends Employee {
     public void prepareOrder(List<Order_Item> orderDetails) {
         System.out.println("Chef " + getEmpName() + " is preparing the order.");
         System.out.println("\nPreparing item: ");
+        System.out.println("ItemID     Cust_ID    Quantity    Special Request");
         for (Order_Item orderItem : orderDetails) {
             System.out.println(orderItem);
         }

@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.Map;
 import java.util.Scanner;
 
+import Restaurant_Management.Banners;
 import User.Customer;
 
 public class Update_Customer {
@@ -21,13 +22,7 @@ public class Update_Customer {
 
         if (customerToUpdate != null) {
             // Update customer details
-            System.out.println("Choose the field to update:");
-            System.out.println("1. First Name");
-            System.out.println("2. Last Name");
-            System.out.println("3. Contact Number");
-            System.out.println("4. Email");
-            System.out.println("5. Username");
-            System.out.println("6. Password");
+        	Banners.displayFieldSelectionMenu();
 
             int choice = sc.nextInt();
             sc.nextLine(); // Consume newline character

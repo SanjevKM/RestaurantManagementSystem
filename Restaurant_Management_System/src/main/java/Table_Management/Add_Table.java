@@ -23,9 +23,12 @@ public class Add_Table {
 
         System.out.println("Enter the employee ID for the new table:");
         int empId = sc.nextInt();
+        
+        System.out.println("Enter the no of seats for the new table:");
+        int seats = sc.nextInt();
 
         // Create a new table and add it to the map
-        Tables newTable = new Tables(tableNo, tableStatus, empId);
+        Tables newTable = new Tables(tableNo, tableStatus, empId, seats);
         tablesMap.put(tableNo, newTable);
 
         // Add the new table to the database

@@ -12,8 +12,8 @@ public class Cancellation {
 
 	 public static void cancelTableBooking(Scanner sc,Connection connection, int custID) {
 	        // Display existing reservations for the customer
-	        TableBooking.displayConfirmedReservations(connection, custID);
-
+	        boolean isFound=TableBooking.displayConfirmedReservations(connection, custID);
+	        if(isFound) {
 	        // Get reservation details to cancel
 	        System.out.println("Enter the Reservation ID you want to cancel:");
 	        int reservationID = sc.nextInt();
@@ -22,7 +22,8 @@ public class Cancellation {
 	        if (isReservationExists(connection, custID, reservationID)) {
 	        	double price=getTablePrice(connection, custID, reservationID);
 	        	Admin.cancelReservation(connection,reservationID,price);
-	    }
+	        }
+	        }
 	 }
 
 	    private static boolean isReservationExists(Connection connection, int custID, int reservationID) {

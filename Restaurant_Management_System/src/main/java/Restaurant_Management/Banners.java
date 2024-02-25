@@ -109,5 +109,32 @@ public class Banners {
         System.out.println("Enter the option:");
     }
 
+	public static void displayMenuDetails() {
+        System.out.println("===========================================");
+        System.out.println("|          Welcome to Our Restaurant      |");
+        System.out.println("===========================================");
+        System.out.println("| Menu Options:                          |");
+        System.out.println("| 1. Search by category                  |");
+        System.out.println("| 2. Search by price                     |");
+        System.out.println("| 3. Full menu                           |");
+        System.out.println("===========================================");
+        System.out.println("Enter the option:");
+    }
+	
+	public static void displayFieldSelectionMenu() {
+        System.out.println("===============================================");
+        System.out.println("|         Welcome to User Profile Update      |");
+        System.out.println("===============================================");
+        System.out.println("| Choose the field to update:                 |");
+        System.out.println("| 1. First Name                               |");
+        System.out.println("| 2. Last Name                                |");
+        System.out.println("| 3. Contact Number                           |");
+        System.out.println("| 4. Email                                    |");
+        System.out.println("| 5. Username                                 |");
+        System.out.println("| 6. Password                                 |");
+        System.out.println("===============================================");
+        System.out.println("Enter the option:");
 
+    }
+	
 }

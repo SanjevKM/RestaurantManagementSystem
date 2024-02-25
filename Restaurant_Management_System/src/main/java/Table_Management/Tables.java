@@ -6,11 +6,15 @@ public class Tables {
     private int tableNo;
     private String tableStatus;
     private int empId;
+    private int seats;
 
-    public Tables(int tableNo, String tableStatus, int empId) {
+   
+
+	public Tables(int tableNo, String tableStatus, int empId, int seats) {
         this.tableNo = tableNo;
         this.tableStatus = tableStatus;
         this.empId = empId;
+        this.seats=seats;
     }
 
     public int getTableNo() {
@@ -37,4 +41,11 @@ public class Tables {
         this.empId = empId;
     }
 
+    public int getSeats() {
+		return seats;
+	}
+
+	public void setSeats(int seats) {
+		this.seats = seats;
+	}
 }

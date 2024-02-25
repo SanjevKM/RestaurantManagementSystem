@@ -80,9 +80,7 @@ public class Employee {
     
     @Override
     public String toString() {
-        return String.format("| %-8s | %-20s | %-15s | %-12s | %-10s | %-12s | %-8s |",
-                "EmpID", "EmpName", "EmpRole", "HireDate", "EmpSal", "DOB", "AdminID") +
-                String.format("\n| %-8d | %-20s | %-15s | %-12s | %-10.2f | %-12s | %-8d |",
+        return String.format("\n %-8d  %-20s  %-15s  %-12s  %-10.2f  %-15s  %-8d ",
                         empId, empName, empRole, hireDate, empSal, dob, adminId);
     }
 

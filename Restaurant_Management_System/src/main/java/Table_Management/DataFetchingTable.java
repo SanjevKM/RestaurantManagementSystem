@@ -13,7 +13,7 @@ public class DataFetchingTable {
         Map<Integer, Tables> tablesMap = new HashMap<>();
 
         try {
-            String query = "SELECT Table_No, Table_Status, Emp_ID FROM Tables";
+            String query = "SELECT Table_No, Table_Status, Emp_ID,Seats FROM Tables";
             try (Statement statement = connection.createStatement();
                  ResultSet resultSet = statement.executeQuery(query)) {
 
@@ -21,9 +21,10 @@ public class DataFetchingTable {
                     int tableNo = resultSet.getInt("Table_No");
                     String tableStatus = resultSet.getString("Table_Status");
                     int empId = resultSet.getInt("Emp_ID");
+                    int seats = resultSet.getInt("Seats");
 
                     // Create Tables object
-                    Tables table = new Tables(tableNo, tableStatus, empId);
+                    Tables table = new Tables(tableNo, tableStatus, empId, seats);
 
                     // Add fetched table to the HashMap
                     tablesMap.put(tableNo, table);

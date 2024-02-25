@@ -34,7 +34,7 @@ public class CustomerUtils {
         int tableNo = -1;
         
         // SQL query to retrieve Table_No based on Cust_ID
-        String selectQuery = "SELECT Table_No FROM Reservation WHERE Cust_ID = ?";
+        String selectQuery = "SELECT Table_No FROM Reservation WHERE Cust_ID = ? AND Status='Confirmed'";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(selectQuery)) {
             preparedStatement.setInt(1, customerID);

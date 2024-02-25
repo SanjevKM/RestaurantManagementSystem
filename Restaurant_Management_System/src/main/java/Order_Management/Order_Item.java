@@ -61,9 +61,7 @@ public class Order_Item {
 
     @Override
     public String toString() {
-        return String.format("| %-8s | %-8s | %-8s | %-15s |",
-                "ItemID", "CustID", "Quantity", "Special Request") +
-                String.format("\n| %-8d | %-8d | %-8d | %-15s |",
+        return String.format("\n %-10s  %-10s  %-10s  %-20s ",
                         itemID, custID, quantity, specialRequest);
     }
 

@@ -25,7 +25,6 @@ public class TableBooking {
     	// Display available tables
     	
         displayAvailableTables(connection2);
-        sc.nextLine();
         String reservationDate = getValidDate(sc);
         
         sc.nextLine();
@@ -55,15 +54,17 @@ public class TableBooking {
                 if (rowsAffected > 0) {
                 	double price=getTablePrice(connection2,tableNumber);
                 	System.out.println("Price for Your table:"+price);
-                	System.out.println("Enter the Payment Type:\n1.Card\n2.Cash\n3.UPI");
+                	System.out.println("Enter the Payment Type:\n1.Cash\n2.Card\n3.UPI");
                 	int type=sc.nextInt();
-                    String paymentMethod = (type == 1) ? "Card" : (type == 2) ? "Cash" : (type == 3) ? "UPI" : "Invalid";
+                    String paymentMethod = (type == 1) ? "Cash" : (type == 2) ? "Card"
+                    		+ ""
+                    		+ "" : (type == 3) ? "UPI" : "Invalid";
                 	boolean ispay=Payment.processPayment(type,price);
                 	if(ispay) {
 	                	int orderid=getOrderIdByCustomerId(connection2,customerID);
 	                	Bill.insertPaymentDetails(connection2,orderid,price,paymentMethod);
 	                    System.out.println("Table booked Successfully.");
-	                    System.out.println("Notification will send to :"+email+"\n");
+	                    System.out.println("\nNotification will send to :"+email+"\n");
 	                    Bill.displayBillDetails(connection2,orderid);
 	                    System.out.println("Reservation Details:");
 	                    displayConfirmedReservations(connection2,customerID);
@@ -129,13 +130,13 @@ public class TableBooking {
                 	System.out.println("Price for Your table:"+price);
                 	System.out.println("Enter the Payment Type:\n1.cash\n2.card\n3.UPI");
                 	int type=sc.nextInt();
-                    String paymentMethod = (type == 1) ? "Card" : (type == 2) ? "Cash" : (type == 3) ? "UPI" : "Invalid";
+                    String paymentMethod = (type == 1) ? "Cash" : (type == 2) ? "Card" : (type == 3) ? "UPI" : "Invalid";
                     boolean ispay=Payment.processPayment(type,price);
                 	if(ispay) {
 	                	int orderid=getOrderIdByCustomerId(connection2,customerID);
 	                	Bill.insertPaymentDetails(connection2,orderid,price,paymentMethod);
 	                    System.out.println("Table booked Successfully.");
-	                    System.out.println("Notification will send to :"+email+"\n");
+	                    System.out.println("\nNotification will send to :"+email+"\n");
 	                    Bill.displayBillDetails(connection2,orderid);
 	                    System.out.println("Reservation Details:");
 	                    displayConfirmedReservations(connection2,customerID);
@@ -156,18 +157,20 @@ public class TableBooking {
 
     public static void displayAvailableTables(Connection connection) {
         // SQL query to select available tables
-        String selectQuery = "SELECT Table_No,Price FROM Tables WHERE Table_Status = 'Available'";
+        String selectQuery = "SELECT Table_No,Price,Seats FROM Tables WHERE Table_Status = 'Available'";
 
         try (Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(selectQuery)) {
 
-            System.out.println("Available Tables:");
-
+            System.out.println("Available Tables:\n");
+            System.out.println("Table No       Price               Seats");
             while (resultSet.next()) {
                 int tableNo = resultSet.getInt("Table_No");
                 double price=resultSet.getDouble("Price");
-                System.out.println("Table No:"+tableNo);
-                System.out.println("Price   :"+price);
+                int seats=resultSet.getInt("Seats");
+                System.out.println();
+                System.out.println(String.format(" %-12s  %-20s  %-5s ", tableNo, price, seats));
+
             }
 
         } catch (SQLException e) {
@@ -183,7 +186,7 @@ public class TableBooking {
                 "AND NOT EXISTS (" +
                 "   SELECT 1 FROM Reservation r " +
                 "   WHERE r.Table_No = t.Table_No " +
-                "   AND r.Reservation_Time = TO_TIMESTAMP(?, 'HH24:MI:SS')" +
+                "   AND r.Reservation_Time = TO_TIMESTAMP(?, 'YYYY-MM-DD HH24:MI:SS')" +
                 ")";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(checkAvailabilityQuery)) {
@@ -202,7 +205,8 @@ public class TableBooking {
         }
     }
 
-    public static void displayConfirmedReservations(Connection connection, int custID) {
+    public static boolean displayConfirmedReservations(Connection connection, int custID) {
+    	boolean isFound=false;
         String selectQuery = "SELECT Reservation_ID, Reservation_Time, Table_No, Status FROM Reservation WHERE Cust_ID = ? AND Status = 'Confirmed'";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(selectQuery)) {
@@ -213,7 +217,7 @@ public class TableBooking {
                     System.out.println("No confirmed reservations found for CustID " + custID);
                 } else {
                     System.out.println("Confirmed Reservation Details for CustID " + custID + ":");
-
+                    isFound=true;
                     do {
                         int reservationID = resultSet.getInt("Reservation_ID");
                         String reservationTime = resultSet.getString("Reservation_Time");
@@ -236,6 +240,7 @@ public class TableBooking {
             System.err.println("Database Error: " + e.getMessage());
             e.printStackTrace();
         }
+        return isFound;
     }
 
 
@@ -290,7 +295,7 @@ public class TableBooking {
 			if (Methods.isvalidateDateInput(date)) {
 			    return date;
 			} else {
-			    System.out.println("Invalid phone number. Please try again.");
+			    System.out.println("Invalid Date Format. Please try again.");
 			    return getValidDate(sc); // Recursive call to get a valid phone number
 			}
 		} catch (CustomException e) {

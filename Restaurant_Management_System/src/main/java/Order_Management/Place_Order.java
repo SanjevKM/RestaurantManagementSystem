@@ -17,6 +17,7 @@ import User.Chef;
 import Menu_Management.DataFetching;
 import Menu_Management.Main_Menu;
 import Menu_Management.ReadMenu;
+import Restaurant_Management.Banners;
 
 public class Place_Order {
 
@@ -26,9 +27,7 @@ public class Place_Order {
         try {
     		List<Main_Menu> menuItems = DataFetching.fetchMenuFromDatabase(connection);
 
-        	System.out.println("Enter the number for Menu");
-        	System.out.println("1.Search by category\n2.Search by price\n3.full menu\n4.Exit");
-        	System.out.println("Enter the option:");
+    		Banners.displayMenuDetails();
         	int option=sc.nextInt();
         	Category categorySearch = new Category();
         	switch(option) {
@@ -48,17 +47,19 @@ public class Place_Order {
         		break;
         		
         	case 3:
-
+                System.out.println();
                 if (!menuItems.isEmpty()) {
                     ReadMenu.readMenu(menuItems);
                 }
                 break;
                 
+        	default:
+        		System.out.println("Enter valid option");
         	}
-            
+        	
         	List<Order_Item> orderDetails = new ArrayList<>();
             while (true) {
-                System.out.println("Enter the item ID to order (or enter -1 to finish ordering):");
+                System.out.println("\nEnter the item ID to order (or enter -1 to finish ordering):");
                 int orderItemID = sc.nextInt();
 
                 if (orderItemID == -1) {
@@ -69,12 +70,12 @@ public class Place_Order {
                 boolean isValidItem = menuItems.stream().anyMatch(item -> item.getItemId() == orderItemID);
 
                 if (isValidItem) {
-                    System.out.println("Enter the quantity for item " + orderItemID + ":");
+                    System.out.println("\nEnter the quantity for item " + orderItemID + ":");
                     int quantity = sc.nextInt();
                     
                     sc.nextLine();
 
-                    System.out.println("Enter special request for item " + orderItemID + " (or enter 'null' for no special request):");
+                    System.out.println("\nEnter special request for item " + orderItemID + " (or enter 'null' for no special request):");
                     String specialRequest = sc.nextLine();
 
                     Order_Item orderItem = new Order_Item(customerID, orderItemID, quantity, specialRequest);
@@ -123,13 +124,13 @@ public class Place_Order {
                     System.out.println("\nOrder served successfully");
                 	System.out.println("\nEnter the Payment Type:\n1.Cash\n2.Card\n3.UPI");
                 	int type=sc.nextInt();
-                    String paymentMethod = (type == 1) ? "Card" : (type == 2) ? "Cash" : (type == 3) ? "UPI" : "Invalid";
+                    String paymentMethod = (type == 1) ? "Cash" : (type == 2) ? "Card" : (type == 3) ? "UPI" : "Invalid";
                 	boolean ispay=Payment.processPayment(type,Amount);
                 	if(ispay) {
                     	int orderid=TableBooking.getOrderIdByCustomerId(connection,customerID);
                     	Bill.insertPaymentDetails(connection,orderid,Amount,paymentMethod);
-                    	Bill.displayBillDetails(connection,orderid);
                     	System.out.println("Notification:\n");
+                    	System.out.println("Item ID       Cust ID      Quantity      Special Request");
                     	for (Order_Item orderItem : orderDetails) {
                             System.out.println(orderItem);
                         }

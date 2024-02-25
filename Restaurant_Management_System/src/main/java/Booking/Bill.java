@@ -22,6 +22,7 @@ public class Bill {
 	                    if (generatedKeys.next()) {
 	                        int generatedBillID = generatedKeys.getInt(1);
 	                        System.out.println("Payment successful. Bill_ID: " + generatedBillID);
+	                    	Bill.displayBillDetails(connection,generatedBillID);
 	                        return true;
 	                    } else {
 	                        System.out.println("Failed to retrieve generated Bill_ID.");
@@ -39,7 +40,7 @@ public class Bill {
 	        }
 	    }
 	 public static void displayBillDetails(Connection connection, int orderID) {
-		    String selectQuery = "SELECT * FROM Bill WHERE Order_ID = ?";
+		    String selectQuery = "SELECT * FROM Bill WHERE Bill_ID = ?";
 
 		    try (PreparedStatement preparedStatement = connection.prepareStatement(selectQuery)) {
 		        preparedStatement.setInt(1, orderID);
@@ -61,7 +62,7 @@ public class Bill {
 		                System.out.println("********************************");
 
 		            } else {
-		                System.out.println("No bill found for Order_ID " + orderID);
+		                System.out.println("No bill found for Bill_ID " + orderID);
 		            }
 		        }
 		    } catch (SQLException e) {

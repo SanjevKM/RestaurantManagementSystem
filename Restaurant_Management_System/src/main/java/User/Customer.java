@@ -54,9 +54,9 @@ public class Customer extends Person {
 	
 	@Override
 	public String toString() {
-	    return String.format("| %-8s | %-15s | %-15s | %-15s | %-30s | %-15s | %-15s |",
+	    return String.format(" %-8s  %-15s  %-15s  %-15s  %-30s  %-15s  %-15s ",
 	            "CustID", "First Name", "Last Name", "Contact No", "Email", "UserName", "Password") +
-	            String.format("\n| %-8d | %-15s | %-15s | %-15s | %-30s | %-15s | %-15s |",
+	            String.format("\n %-8d  %-15s  %-15s  %-15s  %-30s  %-15s  %-15s ",
 	                    custId, first_Name, last_Name, phone_No, email, userName, password);
 	}
 

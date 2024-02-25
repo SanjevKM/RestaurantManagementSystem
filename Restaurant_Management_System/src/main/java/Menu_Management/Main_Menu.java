@@ -93,20 +93,10 @@ public class Main_Menu {
 			this.availability = availability;
 		}
 
-		class MenuComparator implements Comparator<Main_Menu> {
-	        @Override
-	        public int compare(Main_Menu item1, Main_Menu item2) {
-	            // Compare items based on price in ascending order
-	            return Double.compare(item1.getPrice(), item2.getPrice());
-	        }
-	    }
-
-
+		
 		@Override
 		public String toString() {
-		    return String.format("| %-8s | %-20s | %-8s | %-15s | %-15s | %-60s |",
-		            "ItemID", "ItemName", "Price", "Category", "Availability", "Description") +
-		            String.format("\n| %-8d | %-20s | %-8.2f | %-15s | %-15s | %-60s |",
+		    return String.format("\n %-8d  %-20s  %-8.2f  %-15s  %-18s  %-60s ",
 		                    itemId, itemName, price, category, availability, description);
 		}
 

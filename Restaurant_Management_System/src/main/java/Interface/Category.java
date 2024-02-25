@@ -17,7 +17,7 @@ public class Category implements Searchable {
         try (PreparedStatement preparedStatement = connection.prepareStatement(selectQuery)) {
             preparedStatement.setString(1, searchCategory);
             
-            System.out.println(String.format("| %-8s | %-20s | %-60s | %-10s | %-10s |",
+            System.out.println(String.format(" %-8s  %-20s  %-60s  %-10s  %-10s ",
                     "ItemID", "ItemName", "Description", "Price", "Category"));
 
 
@@ -28,8 +28,8 @@ public class Category implements Searchable {
                     String description = resultSet.getString("Description");
                     double price = resultSet.getDouble("Price");
                     String categoryResult = resultSet.getString("Category");
-
-                    System.out.println(String.format("| %-8d | %-20s | %-60s | $%-9.2f | %-10s |",
+                    System.out.println();
+                    System.out.println(String.format(" %-8d  %-20s  %-60s  $%-9.2f  %-10s ",
                             itemid, itemName, description, price, categoryResult));
                 }
             }
@@ -48,7 +48,7 @@ public class Category implements Searchable {
             preparedStatement.setDouble(1, minPrice);
             preparedStatement.setDouble(2, maxPrice);
             
-            System.out.println(String.format("| %-8s | %-20s | %-60s | %-10s | %-10s |",
+            System.out.println(String.format(" %-8s  %-20s  %-60s  %-10s  %-10s ",
                     "ItemID", "ItemName", "Description", "Price", "Category"));
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -58,8 +58,8 @@ public class Category implements Searchable {
                     String description = resultSet.getString("Description");
                     double itemPrice = resultSet.getDouble("Price");
                     String category = resultSet.getString("Category");
-
-                    System.out.println(String.format("| %-8d | %-20s | %-60s | $%-9.2f | %-10s |",
+                    System.out.println();
+                    System.out.println(String.format(" %-8d  %-20s  %-60s  $%-9.2f  %-10s ",
                             itemid, itemName, description, itemPrice, category));
                 }
             }
