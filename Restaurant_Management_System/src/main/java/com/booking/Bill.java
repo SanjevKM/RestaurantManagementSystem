@@ -22,8 +22,7 @@ public class Bill {
 	                    if (generatedKeys.next()) {
 	                        int generatedBillID = generatedKeys.getInt(1);
 	                        System.out.println("Payment successful. Bill_ID: " + generatedBillID);
-	                        Bill b=new Bill();
-		                    b.displayBillDetails(connection,generatedBillID);
+	                        Bill.displayBillDetails(connection,generatedBillID);
 	                        return true;
 	                    } else {
 	                        System.out.println("Failed to retrieve generated Bill_ID.");

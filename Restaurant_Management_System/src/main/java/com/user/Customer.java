@@ -119,7 +119,7 @@ public class Customer extends Person {
     
     
 
-    public static boolean login(Connection connection) {
+    public static String login(Connection connection) {
         System.out.println("Enter User Name:");
         String enteredUserName = sc.next();
 
@@ -136,16 +136,17 @@ public class Customer extends Person {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
+                String email = resultSet.getString("Email");
                 System.out.println("Login Successful!");
-                return true;
+                return email;
             } else {
                 System.out.println("Invalid credentials. Login failed.");
-                return false;
+                return null;
             }
         } catch (SQLException e) {
             System.err.println("Database Error: " + e.getMessage());
             e.printStackTrace();
-            return false;
+            return null;
         }
     }
     
@@ -216,7 +217,7 @@ public class Customer extends Person {
        }
     
     private static String getValidationName(Scanner sc) {
-        System.out.println("Enter the Name:");
+        System.out.println("Enter the First Name:");
         String name = sc.next();
 
         try {
@@ -232,7 +233,7 @@ public class Customer extends Person {
     }
     
     private static String getValidationLastName(Scanner sc) {
-        System.out.println("Enter the Name:");
+        System.out.println("Enter the Last Name:");
         String name = sc.next();
 
         try {

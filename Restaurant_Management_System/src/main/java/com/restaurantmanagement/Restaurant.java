@@ -75,7 +75,12 @@ public class Restaurant {
                         break;
 
                     case 2:
-                        isLoggedIn = Customer.login(connection);
+                        String emailID= Customer.login(connection);
+                        if(emailID==null)
+                        	isLoggedIn=false;
+                        else
+                        	isLoggedIn=true;
+
                         if(!isLoggedIn) break;
                         while (isLoggedIn) {
                         	Banners.displayMainMenu();
@@ -83,11 +88,9 @@ public class Restaurant {
                             int option1 = sc.nextInt();
                             switch (option1) {
                                 case 1:
-                                    System.out.println("Enter your email:");
-                                    String email = sc.next();
+                                    String email = emailID;
                                     int customerID = CustomerUtils.getCustomerIdByEmail(connection, email);
                                     if (customerID != -1) {
-                                        System.out.println("Customer ID for " + email + ": " + customerID);
                                         TableBooking.tableBooking(connection, customerID,email);
                                     } else {
                                         System.out.println("Customer ID not found for email: " + email);
@@ -95,8 +98,7 @@ public class Restaurant {
                                     break;
 
                                 case 2:
-                                    System.out.println("Enter your email:");
-                                    String email3 = sc.next();
+                                    String email3 = emailID;
                                     int customerID3 = CustomerUtils.getCustomerIdByEmail(connection, email3);
                                     if (customerID3 != -1) {
                                         System.out.println("Customer ID for " + email3 + ": " + customerID3);
@@ -108,12 +110,11 @@ public class Restaurant {
 
                                     
                                 case 3:
-                                    System.out.println("Enter your email:");
-                                    String email2 = sc.next();
+                                    
+                                    String email2 = emailID;
                                     int customerID2 = CustomerUtils.getCustomerIdByEmail(connection, email2);
 
                                     if (customerID2 != -1) {
-                                        System.out.println("Customer ID for " + email2 + ": " + customerID2);
                                         int tableNo = CustomerUtils.getTableNoByCustomerId(connection, customerID2);
 
                                         if (tableNo != -1) {
@@ -142,11 +143,9 @@ public class Restaurant {
                                     break;
 
                                 case 4:
-                                    System.out.println("Enter your email:");
-                                    String email1 = sc.next();
+                                    String email1 = emailID;
                                     int customerID1 = CustomerUtils.getCustomerIdByEmail(connection, email1);
                                     if (customerID1 != -1) {
-                                        System.out.println("Customer ID for " + email1 + ": " + customerID1);
                                         Map<Integer, Customer> c = CustomerDataFetching.fetchCustomerFromDatabase(customerID1, connection);
                                         while (true) {
                                         	Banners.displayProfileMenu();
@@ -180,11 +179,9 @@ public class Restaurant {
                                     break;
                                     
                                 case 5:
-                                	System.out.println("Enter your email:");
-                                    String email5 = sc.next();
+                                    String email5 = emailID;
                                     int customerID5 = CustomerUtils.getCustomerIdByEmail(connection, email5);
                                     if (customerID5 != -1) {
-                                        System.out.println("Customer ID for " + email5 + ": " + customerID5);
                                         TableBooking.displayConfirmedReservations(connection,customerID5);
 
                                     } else {

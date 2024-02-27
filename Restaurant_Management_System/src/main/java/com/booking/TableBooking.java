@@ -25,17 +25,14 @@ public class TableBooking {
     	// Display available tables
     	
         displayAvailableTables(connection2);
-        String reservationDate = getValidDate(sc);
         
-        sc.nextLine();
-        System.out.println("Enter Reservation Time (Date HH:mm:ss)(24 hrs Format) ex:(2022-02-23 15:30:00):");
-        String reservationTime = sc.nextLine();
-
+        String reservationTime=getValidDate(sc);
+       
         System.out.println("Enter Table Number:");
         int tableNumber = sc.nextInt();
         
         // Check if the selected table is available
-        if (isTableAvailable(connection2, tableNumber, reservationDate, reservationTime)) {
+        if (isTableAvailable(connection2, tableNumber, reservationTime)) {
             String status = "Confirmed";
 
             // SQL query to insert a new reservation into the 'Reservation' table
@@ -65,7 +62,6 @@ public class TableBooking {
 	                	Bill.insertPaymentDetails(connection2,orderid,price,paymentMethod);
 	                    System.out.println("Table booked Successfully.");
 	                    System.out.println("\nNotification will send to :"+email+"\n");
-	                    Bill.displayBillDetails(connection2,orderid);
 	                    System.out.println("Reservation Details:");
 	                    displayConfirmedReservations(connection2,customerID);
                 	}
@@ -97,17 +93,16 @@ public class TableBooking {
         System.out.println("Enter Admin ID:");
         int adminId = sc.nextInt();
         
-        String reservationDate = getValidDate(sc);
+        
 
-        sc.nextLine();
-        System.out.println("Enter Reservation Time (Date HH:mm:ss)(24 hrs Format) ex:(2022-02-23 15:30:00):");
-        String reservationTime = sc.nextLine();
+        String reservationTime=getValidDate(sc);
+
 
         System.out.println("Enter Table Number:");
         int tableNumber = sc.nextInt();
 
         // Check if the selected table is available
-        if (isTableAvailable(connection2, tableNumber, reservationDate, reservationTime)) {
+        if (isTableAvailable(connection2, tableNumber, reservationTime)) {
             // If available, proceed with the reservation
             String status = "Confirmed";
 
@@ -179,7 +174,7 @@ public class TableBooking {
         }
     }
 
-    private static boolean isTableAvailable(Connection connection, int tableNumber, String reservationDate, String reservationTime) {
+    private static boolean isTableAvailable(Connection connection, int tableNumber, String reservationTime) {
         // SQL query to check if the selected table is available for the specified date and time
         String checkAvailabilityQuery = "SELECT 1 FROM Tables t " +
                 "WHERE t.Table_No = ? AND t.Table_Status = 'Available' " +
@@ -288,22 +283,22 @@ public class TableBooking {
     }
     
     private static String getValidDate(Scanner sc) {
-        System.out.println("Enter Reservation Date (YYYY-MM-DD):");
-        String date = sc.next();
+        System.out.println("Enter Reservation Date and Time (Date HH:mm:ss) (24 hrs Format) ex:(2022-02-23 15:30:00):");
+        String reservation = sc.nextLine();
+        String[] date = reservation.split(" ");
 
         try {
-			if (Methods.isvalidateDateInput(date)) {
-			    return date;
-			} else {
-			    System.out.println("Invalid Date Format. Please try again.");
-			    return getValidDate(sc); // Recursive call to get a valid phone number
-			}
-		} catch (CustomException e) {
-			System.out.println(e.getMessage());
-			return getValidDate(sc);
-		}
+            if (Methods.isvalidateDateInput(date[0])) {
+                return reservation;  // Return the entire reservation string if the date is valid
+            } else {
+                System.out.println("Invalid Date Format. Please try again.");
+                return getValidDate(sc); // Recursive call to get a valid date
+            }
+        } catch (CustomException e) {
+            System.out.println(e.getMessage());
+            return getValidDate(sc);
+        }
     }
-    
     
    
 }
